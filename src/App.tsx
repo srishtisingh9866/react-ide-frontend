@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Explorer } from './components/Explorer'
 import { Editor } from './components/Editor'
 import { Preview } from './components/Preview'
@@ -11,6 +11,15 @@ import { StatusBar } from './components/StatusBar'
 export function App(): JSX.Element {
   const project = useProject('demo')
   const { theme, toggle } = useTheme()
+  useEffect(() => {
+  const baseUrl = import.meta.env.VITE_API_URL;
+
+  fetch(`${baseUrl}/api/health`)
+    .then(res => res.json())
+    .then(data => console.log("✅ Backend connected:", data))
+    .catch(err => console.error("❌ Backend connection failed:", err));
+}, []);
+
   return (
     <div className="app-root">
       <header className="app-header">
